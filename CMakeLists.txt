@@ -36,6 +36,16 @@ find_library(Lapack_LIBRARY
 )
 set(BlasLapack_Libraries ${blas} ${lapack})
 
+find_library(Netcdf_LIBRARY
+   NAMES Netcdf
+   PATHS ${NETCDF_LIBRARY_DIRS}
+)
+
+find_library( yamlcpp
+  NAMES yaml-cpp
+  PATHS /usr/lib64
+  )
+
 #
 # DAKOTA configuration
 #
@@ -83,11 +93,13 @@ ENDIF()
 
 # Check for yaml
 LIST(FIND Trilinos_TPL_LIST yaml-cpp yaml-cpp_Package_Index)
-IF(yaml-cpp_Package_Index GREATER -1)
-    MESSAGE("-- Trilinos was compiled with TPL_ENABLE_yaml-cpp.\n\n   Will compile Peridigm to support YAML input files.\n\n")
-    ADD_DEFINITIONS(-DUSE_YAML)
-    SET(HAVE_YAML TRUE)
-ENDIF()
+ADD_DEFINITIONS(-DUSE_YAML)
+SET(HAVE_YAML TRUE)
+# IF(yaml-cpp_Package_Index GREATER -1)
+#     MESSAGE("-- Trilinos was compiled with TPL_ENABLE_yaml-cpp.\n\n   Will compile Peridigm to support YAML input files.\n\n")
+#     ADD_DEFINITIONS(-DUSE_YAML)
+#     SET(HAVE_YAML TRUE)
+# ENDIF()
 
 #
 # Enable performance testing
